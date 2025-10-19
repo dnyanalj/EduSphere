@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  username  String   @unique
+  password  String
+  role      Role     @default(CANDIDATE)
+  tests     Test[]   @relation("ExaminerTests")
+  attempts  Attempt[]
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  EXAMINER
+  CANDIDATE
+}
+
+model Test {
+  id          Int        @id @default(autoincrement())
+  title       String
+  examiner    User       @relation(fields: [examinerId], references: [id], name: "ExaminerTests")
+  examinerId  Int
+  questions   Question[]
+  scheduledAt DateTime?
+  createdAt   DateTime   @default(now())
+  attempts    Attempt[]  // 👈 each test can still have multiple attempts (from different users)
+}
+
+model Question {
+  id       Int      @id @default(autoincrement())
+  text     String
+  test     Test     @relation(fields: [testId], references: [id])
+  testId   Int
+  options  Option[]
+  answerId Int?     // option id of correct option
+}
+
+model Option {
+  id         Int      @id @default(autoincrement())
+  text       String
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+}
+model Attempt {
+  id          Int      @id @default(autoincrement())
+  candidate   User     @relation(fields: [candidateId], references: [id])
+  candidateId Int
+  test        Test     @relation(fields: [testId], references: [id])
+  testId      Int
+  score       Int?
+  answers     Answer[]
+  startedAt   DateTime @default(now())
+  finishedAt  DateTime?
+
+  @@unique([candidateId, testId]) // 👈 ensures only ONE attempt per candidate-test pair
+}
+
+
+model Answer {
+  id         Int     @id @default(autoincrement())
+  attempt    Attempt @relation(fields: [attemptId], references: [id])
+  attemptId  Int
+  questionId Int
+  optionId   Int?
+}
