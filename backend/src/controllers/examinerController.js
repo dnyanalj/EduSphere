@@ -21,7 +21,7 @@ async function createTest(req, res) {
       include: { questions: { include: { options: true } } }
     });
 
-// If questions include answerIndex, update answerId
+    // If questions include answerIndex, update answerId
     for (let i = 0; i < questions.length; i++) {
       const q = questions[i];
       if (typeof q.answerIndex === 'number') {
@@ -31,16 +31,16 @@ async function createTest(req, res) {
         }
       }
     }
+
     res.json({ test });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 }
 
-// how me all the tests that belong to the user who is logged in, along with their questions.”
 async function listTests(req, res) {
-    const tests = await prisma.test.findMany({ where: { examinerId: req.user.userId }, include: { questions: true } });
-    res.json({ tests });
+  const tests = await prisma.test.findMany({ where: { examinerId: req.user.userId }, include: { questions: true } });
+  res.json({ tests });
 }
 
 module.exports = { createTest, listTests };
