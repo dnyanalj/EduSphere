@@ -4,7 +4,7 @@ const { getScheduledTests, startAttempt, saveAnswer, finishAttempt } = require('
 
 router.get('/tests', getScheduledTests);
 router.post('/start-attempt', startAttempt);
-router.post('/attempts/:attemptId/answer', saveAnswer);
+router.post('/attempts/:attemptId/save-answer', saveAnswer);
 router.post('/attempts/:attemptId/finish', finishAttempt);
 
 module.exports = router;

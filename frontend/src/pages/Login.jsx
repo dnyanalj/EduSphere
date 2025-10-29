@@ -1,24 +1,50 @@
-import { useState } from 'react';
-import API from '../api';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { login } from "../api/authApi";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  const [username,setUsername]=useState('');
-  const [password,setPassword]=useState('');
-  const nav = useNavigate();
+function Login() {
+  const [form, setForm] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
 
-  async function submit(e){ e.preventDefault();
-    const { data } = await API.post('/auth/login',{ username, password });
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('role', data.user.role);
-    nav(data.user.role === 'EXAMINER' ? '/examiner' : '/candidate');
-  }
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const res = await login(form);
+        alert("Login successful!");
+        // window.location.href = "/dashboard";
+        console.log(res.data.user);
+
+        navigate("/candidate/dashboard");
+        
+      } catch (err) {
+        alert(err.response?.data?.error || "Login failed");
+    }
+  };
 
   return (
-    <form onSubmit={submit}>
-      <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="username"/>
-      <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="password"/>
-      <button>Login</button>
-    </form>
+    <div className="p-4">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            placeholder="Username"
+        />
+        <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 }
+
+export default Login;
