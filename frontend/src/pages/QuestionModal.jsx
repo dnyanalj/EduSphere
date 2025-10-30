@@ -58,21 +58,19 @@ function QuestionModal({ onSave, onCancel }) {
           <button
             onClick={onCancel}
             className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-          >
-            Cancel
+          >Cancel
           </button>
 
           <button
             onClick={handleSubmit}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Save Question
+          >Save Question
           </button>
-          
+
         </div>
       </div>
     </div>
   );
-}
+} 
 
 export default QuestionModal;

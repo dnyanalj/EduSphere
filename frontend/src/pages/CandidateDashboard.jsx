@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function CandidateDashboard() {
   const [tests, setTests] = useState([]);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
 // fetch scheduled tests on mount
   useEffect(() => {
@@ -16,12 +16,9 @@ const navigate = useNavigate();
   // handle start attempt
   const handleStart = async (testId) => {
     try {
-      console.log(1);
       const res = await startAttempt(testId);
-      console.log(1);
       alert(`✅ Exam started! Attempt ID: ${res.data.attemptId}`);
       navigate(`/exam/${res.data.attemptId}`);
-
     } catch (err) {
       if (err.response) {
         // Server responded but with error

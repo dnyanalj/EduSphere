@@ -15,7 +15,7 @@ function App() {
         <Route path="/examiner/dashboard" element={<ExaminerDashboard />} />
         <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
         <Route path="/create-test" element={<CreateTest />} />
-         <Route path="/exam/:attemptId" element={<ExamPage />} />
+        <Route path="/exam/:attemptId" element={<ExamPage />} />
       </Routes>
     </Router>
   );

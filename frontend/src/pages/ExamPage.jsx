@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getExamQuestions, submitExam } from "../api/candidateApi";
+import { useNavigate } from "react-router-dom";
 
 function ExamPage() {
   const { attemptId } = useParams();
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
-
+  const navigate = useNavigate();
 //   fetch questions for this exam
   useEffect(() => {
     async function fetchQuestions() {
@@ -36,8 +37,11 @@ function ExamPage() {
   };
   const handleSubmit = async () => {
     try {
+      
       await submitExam(attemptId, answers);
       alert("✅ Exam submitted successfully!");
+      navigate("/candidate/dashboard");
+
     } catch (err) {
       alert("❌ Error submitting exam");
       console.error(err);
@@ -61,7 +65,7 @@ function ExamPage() {
                 checked={answers[currentQuestion.id] === opt}
                 onChange={() => handleAnswer(opt)}
             />
-            {opt}
+            {opt.text}
           </label>
         </div>
       ))}

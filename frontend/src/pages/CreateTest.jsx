@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { createTest } from "../api/examinerApi";
 import QuestionModal from "./QuestionModal.jsx";
+import { useNavigate } from "react-router-dom";
 
 function CreateTest() {
   const [title, setTitle] = useState("");
   const [scheduledAt, setScheduledAt] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
+  const navigate = useNavigate();
   // Add new question from modal
   const handleAddQuestion = (questionData) => {
     setQuestions((prev) => [...prev, questionData]);
@@ -38,6 +39,7 @@ function CreateTest() {
       setTitle("");
       setScheduledAt("");
       setQuestions([]);
+      navigate("/examiner/dashboard");
     } catch (err) {
       console.error(err);
       alert("❌ Failed to create test");
