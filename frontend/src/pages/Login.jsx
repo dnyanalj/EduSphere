@@ -14,11 +14,10 @@ function Login() {
     try {
         const res = await login(form);
         alert("Login successful!");
-        // window.location.href = "/dashboard";
-        console.log(res.data.user);
 
-        navigate("/candidate/dashboard");
-        
+        console.log();
+          navigate(`/${res.data.user.role.toLowerCase()}/dashboard`); 
+          // console.log("Navigating to /${role}/dashboard");
       } catch (err) {
         alert(err.response?.data?.error || "Login failed");
     }

@@ -9,11 +9,11 @@ async function signup(req, res) {
       return res.status(400).json({ error: 'Missing fields' });
 
     const hashed = await bcrypt.hash(password, 10);
+    console.log(10);
 
     const user = await prisma.user.create({
       data: { name, username, password: hashed, role: role || 'CANDIDATE' },
     });
-
     const token = jwt.sign(
       { userId: user.id, role: user.role },
       process.env.JWT_SECRET,

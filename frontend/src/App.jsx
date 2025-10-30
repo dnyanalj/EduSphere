@@ -3,7 +3,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ExaminerDashboard from "./pages/ExaminerDashboard";
 import CandidateDashboard from "./pages/CandidateDashboard";
-
+import CreateTest from "./pages/CreateTest";
+import ExamPage from "./pages/ExamPage";
 function App() {
   return (
     <Router>
@@ -13,6 +14,8 @@ function App() {
         <Route path="/signup/" element={<Signup />} />
         <Route path="/examiner/dashboard" element={<ExaminerDashboard />} />
         <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
+        <Route path="/create-test" element={<CreateTest />} />
+         <Route path="/exam/:attemptId" element={<ExamPage />} />
       </Routes>
     </Router>
   );

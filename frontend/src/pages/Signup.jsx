@@ -20,7 +20,7 @@ function Signup() {
       const res = await signup(form);
       alert("Signup successful!");
       
-      navigate("/login");
+      navigate(`/${form.role.toLowerCase()}/dashboard`);
 
     } catch (err) {
       alert(err.response?.data?.error || "Signup failed");

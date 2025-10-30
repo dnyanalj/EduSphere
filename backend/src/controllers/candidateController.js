@@ -8,12 +8,15 @@ async function getScheduledTests(req, res) {
 async function startAttempt(req, res) {
   if (req.user.role !== 'CANDIDATE') return res.status(403).json({ error: 'Forbidden' });
   const { testId } = req.body;
+  // if condition: already attempted
   const existingAttempt = await prisma.attempt.findFirst({
-  where: { candidateId: req.user.userId, testId },
-});
-if (existingAttempt)
-  return res.status(400).json({ error: 'Already attempted' });
-
+    where: { candidateId: req.user.userId, testId },
+  });
+  // for now only
+  if (existingAttempt)
+    return res.status(400).json({ error: 'Already attempted' });
+  console.log('Starting attempt for user')
+  // new attempt create
   const attempt = await prisma.attempt.create({ data: { candidateId: req.user.userId, testId } });
   res.json({ attemptId: attempt.id });
 }
@@ -21,8 +24,9 @@ if (existingAttempt)
 async function saveAnswer(req, res) {
   const { attemptId } = req.params;
   const { questionId, optionId } = req.body;
-  // upsert: if answer exists update else create
+  // save answer logic
   const existing = await prisma.answer.findFirst({ where: { attemptId: Number(attemptId), questionId } });
+  
   if (existing) {
     await prisma.answer.update({ where: { id: existing.id }, data: { optionId } });
   } else {
@@ -46,4 +50,47 @@ async function finishAttempt(req, res) {
   res.json({ score, total: attempt.test.questions.length });
 }
 
-module.exports = { getScheduledTests, startAttempt, saveAnswer, finishAttempt };
+
+async function getAttemptQuestions(req, res) {
+  try {
+    const { attemptId } = req.params;
+
+    // 1️⃣ Find attempt and include test + questions + options
+    const attempt = await prisma.attempt.findUnique({
+      where: { id: Number(attemptId) },
+      include: {
+        test: {
+          include: {
+            questions: {
+              include: {
+                options: true, // so frontend can display multiple choices
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // 2️⃣ Handle invalid attempt ID
+    if (!attempt) return res.status(404).json({ error: 'Attempt not found' });
+
+    // 3️⃣ Verify that the attempt belongs to the logged-in user (optional security)
+    if (req.user.role !== 'CANDIDATE' || req.user.userId !== attempt.candidateId) {
+      return res.status(403).json({ error: 'Unauthorized access' });
+    }
+
+    // 4️⃣ Return the questions
+    res.json({
+      questions: attempt.test.questions.map(q => ({
+        id: q.id,
+        text: q.text,
+        options: q.options.map(o => ({ id: o.id, text: o.text })),
+      })),
+    });
+  } catch (error) {
+    console.error('❌ Error in getAttemptQuestions:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+module.exports = { getAttemptQuestions, getScheduledTests, startAttempt, saveAnswer, finishAttempt };

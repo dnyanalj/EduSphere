@@ -22,8 +22,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/examiner', authMiddleware, examinerRoutes); // further check role inside routes
 app.use('/api/candidate', authMiddleware, candidateRoutes);
 
-// app.use('/api/examiner', examinerRoutes); 
-// app.use('/api/candidate', candidateRoutes);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server running on ${port}`));

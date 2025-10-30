@@ -29,6 +29,7 @@ function ExaminerDashboard() {
     <div className="p-6 max-w-3xl mx-auto">
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-2xl font-bold">Examiner Dashboard</h2>
+        
         <button
           onClick={() => navigate("/create-test")}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg"
