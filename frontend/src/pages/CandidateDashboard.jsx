@@ -35,6 +35,7 @@ function CandidateDashboard() {
       }
       console.error("Attempt start error:", err);
     }
+    
   };
 
   return (
