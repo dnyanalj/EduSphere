@@ -39,6 +39,7 @@ function CandidateDashboard() {
   };
 
   return (
+    
     <div>
       <h2>Scheduled Tests</h2>
       {tests.map((t) => (
