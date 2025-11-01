@@ -7,3 +7,4 @@ export const getExamQuestions = (attemptId) => axiosClient.get(`/candidate/attem
 export const saveAnswer = (attemptId, data) => axiosClient.post(`/candidate/attempt/${attemptId}/save-answer`, data);
 export const submitExam=(attemptId, answers) => axiosClient.post(`/candidate/attempt/${attemptId}/finish`, { answers });
 // export const finishAttempt = (attemptId) => axiosClient.post(`/candidate/${attemptId}/finish`, { answers });
+export const getResult = (attemptId) => axiosClient.get(`/candidate/result/${attemptId}`);

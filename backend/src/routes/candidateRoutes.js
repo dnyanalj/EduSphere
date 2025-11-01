@@ -7,4 +7,6 @@ router.post('/start-attempt', startAttempt);
 router.get('/attempt/:attemptId/questions', getAttemptQuestions);
 router.post('/attempt/:attemptId/save-answer', saveAnswer);
 router.post('/attempt/:attemptId/finish', finishAttempt);
+// router.get('/result/:attemptId', getResult);
+
 module.exports = router;

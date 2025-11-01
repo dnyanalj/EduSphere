@@ -1,8 +1,33 @@
 const prisma = require('../prisma.js');
 
 async function getScheduledTests(req, res) {
-  const tests = await prisma.test.findMany({ where: {}, select: { id: true, title: true, scheduledAt: true } });
-  res.json({ tests });
+    try {
+    const tests = await prisma.test.findMany({
+      include: {
+        attempts: {
+          where: { candidateId: req.user.userId },
+          select: {
+            id: true,
+            status: true,
+            score: true,
+          },
+        },
+      },
+    });
+
+    // Map tests so each test includes one attempt (if any)
+    const formatted = tests.map((t) => ({
+      id: t.id,
+      title: t.title,
+      scheduledAt: t.scheduledAt,
+      attempt: t.attempts[0] || null, // if user attempted it, attach attempt info
+    }));
+
+    res.json({ tests: formatted });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch scheduled tests" });
+  }
 }
 
 async function startAttempt(req, res) {
@@ -92,5 +117,47 @@ async function getAttemptQuestions(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+// 
 
-module.exports = { getAttemptQuestions, getScheduledTests, startAttempt, saveAnswer, finishAttempt };
+async function getResult(req, res) {
+  const { attemptId } = req.params;
+  try {
+
+    const attempt = await prisma.attempt.findUnique({
+      where: { id: parseInt(attemptId) },
+      include: {
+        test: {
+          include: {
+            questions: {
+              include: { options: true },
+            },
+          },
+        },
+        answers: true,
+      },
+    });
+
+    if (!attempt) return res.status(404).json({ error: "Attempt not found" });
+
+    const resultData = attempt.test.questions.map((q) => {
+      const userAns = attempt.answers.find((a) => a.questionId === q.id);
+      return {
+        question: q.text,
+        correctOption: q.answerId,
+        userOption: userAns ? userAns.optionId : null,
+        isCorrect: userAns && userAns.optionId === q.answerId,
+      };
+    });
+
+    res.json({
+      score: attempt.score,
+      total: attempt.test.questions.length,
+      details: resultData,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch result" });
+  }
+}
+
+module.exports = { getAttemptQuestions, getScheduledTests, startAttempt, saveAnswer, finishAttempt ,getResult};

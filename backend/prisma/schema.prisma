@@ -59,7 +59,7 @@ model Attempt {
   answers     Answer[]
   startedAt   DateTime @default(now())
   finishedAt  DateTime?
-
+  status      String    @default("ONGOING")  
   @@unique([candidateId, testId]) // 👈 ensures only ONE attempt per candidate-test pair
 }
 
