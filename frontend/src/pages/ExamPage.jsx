@@ -28,9 +28,9 @@ function ExamPage() {
 //   ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐//current is basically the index to track current question.
   const currentQuestion = questions[current];
 
-
   const handleAnswer = (option) => {
     setAnswers({ ...answers, [currentQuestion.id]: option });
+    // 
   };
   const handleNext = () => {
     if (current < questions.length - 1) setCurrent(current + 1);
@@ -72,7 +72,7 @@ function ExamPage() {
 
       <div>
         {current < questions.length - 1 ? (
-          <button onClick={handleNext}>Next</button>
+          <button onClick={handleNext}>Next</button>  
         ) : (
           <button onClick={handleSubmit}>Submit</button>
         )}

@@ -31,7 +31,7 @@ function ShowResult() {
       {result.details.map((q, i) => (
         <div key={i} style={{ marginBottom: "1rem" }}>
           <p><strong>Q{i + 1}:</strong> {q.question}</p>
-          <p>✅ Correct Option: {q.correctOption}</p>
+          <p>✅ Correct Answer: {q.correctOption}</p>
           <p>🧠 Your Answer: {q.userOption || "Not answered"}</p>
           <p style={{ color: q.isCorrect ? "green" : "red" }}>
             {q.isCorrect ? "Correct" : "Incorrect"}

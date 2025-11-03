@@ -6,7 +6,7 @@ function CandidateDashboard() {
   const [tests, setTests] = useState([]);
   const navigate = useNavigate();
 
-// fetch scheduled tests on mount
+  // fetch scheduled tests on mount
   useEffect(() => {
     getScheduledTests()
       .then((res) => setTests(res.data.tests))
@@ -35,34 +35,30 @@ function CandidateDashboard() {
       }
       console.error("Attempt start error:", err);
     }
-    
   };
 
   return (
-
     <div>
       <h2>Scheduled Tests</h2>
 
       {tests.map((t) => (
-  <div key={t.id}>
-    <p>{t.title}</p>
-    <p>{new Date(t.scheduledAt).toLocaleString()}</p>
+        <div key={t.id}>
+          <p>{t.title}</p>
+          <p>{new Date(t.scheduledAt).toLocaleString()}</p>
 
-    {t.attempt ? (
-      t.attempt.status === "FINISHED" ? (
-        <button onClick={() => navigate(`/result/${t.attempt.id}`)}>
-          See Result
-        </button>
-      ) : (
-        <button disabled>Exam Already Attempted</button>
-      )
-    ) : (
-      <button onClick={() => handleStart(t.id)}>Start Exam</button>
-    )}
-  </div>
-))}
-
-
+          {t.attempt ? (
+            t.attempt.status === "FINISHED" ? (
+              <button onClick={() => navigate(`/result/${t.attempt.id}`)}>
+                See Result
+              </button>
+            ) : (
+              <button disabled>Exam Already Attempted</button>
+            )
+          ) : (
+            <button onClick={() => handleStart(t.id)}>Start Exam</button>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

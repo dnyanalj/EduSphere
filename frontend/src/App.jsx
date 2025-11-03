@@ -5,6 +5,8 @@ import ExaminerDashboard from "./pages/ExaminerDashboard";
 import CandidateDashboard from "./pages/CandidateDashboard";
 import CreateTest from "./pages/CreateTest";
 import ExamPage from "./pages/ExamPage";
+import ShowResult from "./pages/ShowResult";
+
 function App() {
   return (
     <Router>
@@ -16,6 +18,7 @@ function App() {
         <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
         <Route path="/create-test" element={<CreateTest />} />
         <Route path="/exam/:attemptId" element={<ExamPage />} />
+        <Route path="/result/:attemptId" element={<ShowResult />} />
       </Routes>
     </Router>
   );
