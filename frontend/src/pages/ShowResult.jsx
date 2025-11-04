@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getResult } from "../api/candidateApi";
 
 function ShowResult() {
   const { attemptId } = useParams();
+  const navigate = useNavigate();
   const [result, setResult] = useState(null);
 
   useEffect(() => {
@@ -31,13 +32,16 @@ function ShowResult() {
       {result.details.map((q, i) => (
         <div key={i} style={{ marginBottom: "1rem" }}>
           <p><strong>Q{i + 1}:</strong> {q.question}</p>
-          <p>✅ Correct Answer: {q.correctOption}</p>
+          <p>✔️ Correct Answer: {q.correctOption}</p>
           <p>🧠 Your Answer: {q.userOption || "Not answered"}</p>
           <p style={{ color: q.isCorrect ? "green" : "red" }}>
             {q.isCorrect ? "Correct" : "Incorrect"}
           </p>
         </div>
       ))}
+
+
+      <button onClick={() =>navigate("/candidate/dashboard")}>back</button>
     </div>
   );
 }
