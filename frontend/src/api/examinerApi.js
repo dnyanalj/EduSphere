@@ -5,3 +5,6 @@ export const createTest = (testData) =>
 
 export const getAllTests = () =>
     axiosClient.get('/examiner/tests');
+
+export const getTestResults = (testId) =>
+    axiosClient.get(`/examiner/test/${testId}/results`);

@@ -13,6 +13,7 @@ function ExaminerDashboard() {
       try {
         // 
         const res = await getAllTests();
+        console.log(res.data.tests);
         setTests(res.data.tests || []);
       } catch (err) {
         console.error("Error fetching tests:", err);

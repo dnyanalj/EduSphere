@@ -52,7 +52,7 @@ function CandidateDashboard() {
                 See Result
               </button>
             ) : (
-              <button disabled>Exam Already Attempted</button>
+              <button disabled>exam not FINISHED</button>
             )
           ) : (
             <button onClick={() => handleStart(t.id)}>Start Exam</button>

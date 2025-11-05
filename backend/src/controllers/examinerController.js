@@ -43,4 +43,40 @@ async function listTests(req, res) {
   res.json({ tests });
 }
 
-module.exports = { createTest, listTests };
+async function getTestResults(req, res) {
+  const { testId } = req.params;
+
+  try {
+    const test = await prisma.test.findUnique({
+      where: { id: Number(testId) },
+      include: {
+          questions: true, 
+          attempts: {
+          include: {
+            candidate: true,
+          },
+        },
+      },
+    });
+
+    if (!test) return res.status(404).json({ error: "Test not found" });
+    console.log("Fetched test:", test);
+    const results = test.attempts.map((a) => ({
+      candidateId: a.candidate.id,
+      candidateName: a.candidate.name || a.candidate.username,
+      score: a.score ?? 0,
+      totalQuestions: test.questions?.length || 1,
+      status: a.status,
+    }));
+    console.log("Test results:", results);
+    res.json({
+      testTitle: test.title,
+      results,
+    });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to fetch test results" });
+  }
+}
+
+module.exports = { createTest, listTests ,getTestResults};

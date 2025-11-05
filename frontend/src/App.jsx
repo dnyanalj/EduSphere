@@ -6,6 +6,7 @@ import CandidateDashboard from "./pages/CandidateDashboard";
 import CreateTest from "./pages/CreateTest";
 import ExamPage from "./pages/ExamPage";
 import ShowResult from "./pages/ShowResult";
+import ShowResultsExaminer from "./pages/showResultsExaminer";
 
 function App() {
   return (
@@ -18,7 +19,11 @@ function App() {
         <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
         <Route path="/create-test" element={<CreateTest />} />
         <Route path="/exam/:attemptId" element={<ExamPage />} />
+        {/* for candidate */}
         <Route path="/result/:attemptId" element={<ShowResult />} />
+        {/* for examiner */}
+        <Route path="/examiner/test/:testId/results" element={<ShowResultsExaminer />} />
+
       </Routes>
     </Router>
   );
