@@ -10,6 +10,7 @@ import ShowResultsExaminer from "./pages/showResultsExaminer";
 
 function App() {
   return (
+<div>
     <Router>
       <Routes>
         <Route path="/" element={<Signup />} />
@@ -23,10 +24,9 @@ function App() {
         <Route path="/result/:attemptId" element={<ShowResult />} />
         {/* for examiner */}
         <Route path="/examiner/test/:testId/results" element={<ShowResultsExaminer />} />
-
       </Routes>
     </Router>
-  );
-}
+  </div>
+)}
 
 export default App;
