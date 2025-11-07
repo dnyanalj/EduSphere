@@ -8,25 +8,31 @@ import ExamPage from "./pages/ExamPage";
 import ShowResult from "./pages/ShowResult";
 import ShowResultsExaminer from "./pages/showResultsExaminer";
 
+//
+import { Button } from "@/components/ui/button";
 function App() {
   return (
-<div>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="/login/" element={<Login />} />
-        <Route path="/signup/" element={<Signup />} />
-        <Route path="/examiner/dashboard" element={<ExaminerDashboard />} />
-        <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
-        <Route path="/create-test" element={<CreateTest />} />
-        <Route path="/exam/:attemptId" element={<ExamPage />} />
-        {/* for candidate */}
-        <Route path="/result/:attemptId" element={<ShowResult />} />
-        {/* for examiner */}
-        <Route path="/examiner/test/:testId/results" element={<ShowResultsExaminer />} />
-      </Routes>
-    </Router>
-  </div>
-)}
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Signup />} />
+          <Route path="/login/" element={<Login />} />
+          <Route path="/signup/" element={<Signup />} />
+          <Route path="/examiner/dashboard" element={<ExaminerDashboard />} />
+          <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
+          <Route path="/create-test" element={<CreateTest />} />
+          <Route path="/exam/:attemptId" element={<ExamPage />} />
+          {/* for candidate */}
+          <Route path="/result/:attemptId" element={<ShowResult />} />
+          {/* for examiner */}
+          <Route
+            path="/examiner/test/:testId/results"
+            element={<ShowResultsExaminer />}
+          />
+        </Routes>
+      </Router>
+    </div>
+  );
+}
 
 export default App;
