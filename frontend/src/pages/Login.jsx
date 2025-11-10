@@ -164,7 +164,7 @@ function Login() {
                       className="w-full bg-black text-white hover:bg-gray-800 transition-colors duration-200"
                         // onClick={handleSubmit}
                       >
-                      Sign Up
+                     Sign in
               </Button>
 
             </div>
@@ -182,7 +182,7 @@ function Login() {
               </div>
             </div>
           <Button variant="outline" className="w-full">
-            Login with Google
+              Login with Google
           </Button>
         </CardFooter>
       </Card>
