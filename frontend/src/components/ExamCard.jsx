@@ -40,7 +40,7 @@ export default function ExamCard({ test, onStartExam }) {
         ) : (
           <Button
             onClick={() => onStartExam(test.id)}
-            className="w-full bg-black hover:bg-gray-800"
+            className="w-full text-gray-100 bg-black hover:bg-gray-800"
           >
             Start Exam
           </Button>

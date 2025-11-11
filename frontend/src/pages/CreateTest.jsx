@@ -21,11 +21,11 @@ function CreateTest() {
       alert("Please enter a title and add at least one question.");
       return;
     }
-     if (!title.trim()) {
+    if (!title.trim()) {
       alert("Please enter a title.");
       return;
     }
-     if (questions.length === 0) {
+    if (questions.length === 0) {
       alert("Please add at least one question.");
       return;
     }
@@ -69,35 +69,34 @@ function CreateTest() {
 
       {/* show questions  */}
       <div className="mb-3">
-  <h3 className="font-semibold mb-2">Questions ({questions.length})</h3>
-  {questions.map((q, i) => (
-    <div key={i} className="mb-3 p-3 border rounded bg-gray-50">
-      <p className="font-medium mb-2">
-        <strong>Q{i + 1}:</strong> {q.text}
-      </p>
+        <h3 className="font-semibold mb-2">Questions ({questions.length})</h3>
+        {questions.map((q, i) => (
+          <div key={i} className="mb-3 p-3 border rounded bg-gray-50">
+            <p className="font-medium mb-2">
+              <strong>Q{i + 1}:</strong> {q.text}
+            </p>
 
-      <ul className="ml-4 space-y-1">
-        {q.options.map((opt, idx) => {
-          const isAnswer = q.answerIndex === idx;
-          return (
-            <li
-              key={idx}
-              className={`p-2 rounded border ${
-                isAnswer
-                  ? "bg-green-100 border-green-400 text-green-700 font-semibold flex items-center gap-1"
-                  : "border-transparent"
-              }`}
-            >
-              {isAnswer && <span>✅</span>}
-              {opt}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  ))}
-</div>
-
+            <ul className="ml-4 space-y-1">
+              {q.options.map((opt, idx) => {
+                const isAnswer = q.answerIndex === idx;
+                return (
+                  <li
+                    key={idx}
+                    className={`p-2 rounded border ${
+                      isAnswer
+                        ? "bg-green-100 border-green-400 text-green-700 font-semibold flex items-center gap-1"
+                        : "border-transparent"
+                    }`}
+                  >
+                    {isAnswer && <span>✅</span>}
+                    {opt}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
 
       <div className="flex gap-2">
         <button

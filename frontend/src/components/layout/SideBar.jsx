@@ -18,7 +18,7 @@ export default function Sidebar() {
     try {
       await logout(); // Calls backend logout API
       localStorage.removeItem("token"); // or sessionStorage if you store JWT
-      alert("Logged out successfully!");
+      // alert("Logged out successfully!");
       navigate("/login"); // Redirect user to login page
     } catch (err) {
       console.error("Logout failed:", err);
