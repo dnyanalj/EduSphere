@@ -16,8 +16,6 @@ function ShowResult() {
       try {
         const res = await getResult(attemptId);
         setResult(res.data);
-        // console.log(res);
-        
       } catch (err) {
         console.error("Error fetching result:", err);
       }
@@ -34,72 +32,85 @@ function ShowResult() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-6 flex flex-col items-center">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-50 py-12 px-6 flex flex-col items-center">
       {/* RESULT SUMMARY CARD */}
-      <Card className="w-full max-w-2xl shadow-md border">
-        
-        <CardHeader>
-          <CardTitle className="text-2xl font-semibold text-center">
-            Exam Result
+      <Card className="w-full max-w-2xl shadow-xl border border-gray-200 rounded-2xl bg-white">
+        <CardHeader className="border-b border-gray-100">
+          <CardTitle className="text-3xl font-semibold text-center text-gray-800">
+            🧠 Exam Result
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="text-center">
+        <CardContent className="text-center py-6 space-y-3">
           <p className="text-lg">
-            <span className="font-medium">Score:</span>{" "}
-            <span className="text-green-600 font-bold">
+            <span className="font-medium text-gray-700">Score:</span>{" "}
+            <span className="text-green-600 font-bold text-xl">
               {result.score}
             </span>{" "}
             / {result.total}
           </p>
-          <p className="text-sm text-gray-500 mt-1">
-            You answered {result.details.filter((q) => q.isCorrect).length} out of{" "}
-            {result.total} correctly.
+          <p className="text-sm text-gray-500">
+            You answered{" "}
+            <span className="font-semibold text-gray-700">
+              {result.details.filter((q) => q.isCorrect).length}
+            </span>{" "}
+            out of {result.total} correctly.
           </p>
+
+          <Badge
+            className={`mt-4 px-4 py-1 text-sm ${
+              result.score / result.total >= 0.5
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {result.score / result.total >= 0.5 ? "Passed" : "Needs Improvement"}
+          </Badge>
         </CardContent>
-        
       </Card>
 
       {/* QUESTIONS SECTION */}
-      <div className="w-full max-w-3xl mt-8 space-y-6">
+      <div className="w-full max-w-3xl mt-10 space-y-6">
         {result.details.map((q, i) => (
           <Card
             key={i}
-            className="border hover:shadow-md transition-shadow duration-200"
+            className="border border-gray-200 shadow-sm bg-white rounded-xl hover:shadow-lg transition-transform transform hover:-translate-y-1"
           >
             <CardHeader>
-              <CardTitle className="text-base font-medium">
+              <CardTitle className="text-base font-medium text-gray-800">
                 Q{i + 1}. {q.question}
               </CardTitle>
             </CardHeader>
-            
-            <CardContent className="space-y-2">
+
+            <CardContent className="space-y-2 text-gray-700">
               <p>
-                <span className="font-medium">✔️ Correct Answer:</span>{" "}
+                <span className="font-medium text-gray-800">✔️ Correct Answer:</span>{" "}
                 {q.correctOption}
               </p>
               <p>
-                <span className="font-medium">🧠 Your Answer:</span>{" "}
+                <span className="font-medium text-gray-800">🧠 Your Answer:</span>{" "}
                 {q.userOption || "Not answered"}
               </p>
               <Badge
-                variant={q.isCorrect ? "success" : "destructive"}
-                className="mt-2"
+                className={`mt-2 px-3 py-1 ${
+                  q.isCorrect
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                }`}
               >
                 {q.isCorrect ? "Correct" : "Incorrect"}
               </Badge>
             </CardContent>
-
           </Card>
         ))}
       </div>
 
-      <Separator className="my-6 w-full max-w-2xl" />
+      <Separator className="my-8 w-full max-w-2xl bg-gray-200" />
 
       <Button
         variant="outline"
         onClick={() => navigate("/candidate/dashboard")}
-        className="mt-4"
+        className="mt-4 border-gray-300 text-gray-700 hover:bg-gray-100 transition"
       >
         ← Back to Dashboard
       </Button>
