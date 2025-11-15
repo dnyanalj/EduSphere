@@ -20,6 +20,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function ShowResultsExaminer() {
   const { testId } = useParams();
+
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function ShowResultsExaminer() {
   if (!data) return <p className="text-center py-10 text-gray-500">Loading results...</p>;
 
   return (
-    <div className="p-6 md:p-10 bg-gradient-to-b from-gray-50 to-white min-h-screen">
+    <div className="p-6 md:p-10 from-gray-50 to-white min-h-screen">
       <Card className="max-w-5xl mx-auto shadow-lg border border-gray-200 rounded-2xl bg-white">
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center justify-between">

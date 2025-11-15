@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, BarChart3 } from "lucide-react";
 
-const TestCard = ({ test }) => {
+const ExaminerCard = ({ test }) => {
   const navigate = useNavigate();
 
   const now = new Date();
@@ -20,7 +20,6 @@ const TestCard = ({ test }) => {
 
   if (test.scheduledAt) {
     const scheduledDate = new Date(test.scheduledAt);
-
     if (scheduledDate > now) {
       badgeText = "Scheduled";
       badgeClass = "bg-blue-100 text-blue-800 border border-blue-200";
@@ -74,4 +73,4 @@ const TestCard = ({ test }) => {
   );
 };
 
-export default TestCard;
+export default ExaminerCard  ;

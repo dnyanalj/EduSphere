@@ -7,7 +7,8 @@ import CreateTest from "./pages/CreateTest";
 import ExamPage from "./pages/ExamPage";
 import ShowResult from "./pages/ShowResult";
 import ShowResultsExaminer from "./pages/showResultsExaminer";
-
+import ProfilePage from "./pages/ProfilePage";
+import CandidateAnalytics from "./pages/CandidateAnalytics";
 //
 import { Button } from "@/components/ui/button";
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <div>
       <Router>
         <Routes>
+
           <Route path="/" element={<Signup />} />
           <Route path="/login/" element={<Login />} />
           <Route path="/signup/" element={<Signup />} />
@@ -29,7 +31,10 @@ function App() {
             path="/examiner/test/:testId/results"
             element={<ShowResultsExaminer />}
           />
+          <Route path="candidate/profile" element={<ProfilePage />} />
+          <Route path="candidate/analytics" element={<CandidateAnalytics />} />
         </Routes>
+
       </Router>
     </div>
   );

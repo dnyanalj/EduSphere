@@ -49,14 +49,21 @@ export default function Sidebar({ role = "candidate" }) {
 
   return (
     <aside
-      className={`translate-x-0 md:translate-x-0 fixed md:static inset-y-0 left-0 w-64 bg-white border-r shadow-sm transform transition-transform duration-200 z-50`}
+      className="fixed md:static inset-y-0 left-0 w-64 h-screen 
+            bg-white border-gray-100 shadow-sm flex flex-col"
     >
-      <div className="p-4 border-b flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-800">ShikenX</h1>
-        
+      {/* Header */}
+      <div className="p-4  flex items-center justify-between ">
+         <img
+          src="/ShikenX.png"
+          alt="ShikenX Logo"
+          className="h-10 w-auto"
+        />
+
       </div>
 
-      <nav className="flex flex-col p-4 space-y-2 text-gray-700">
+      {/* Navigation */}
+      <nav className="flex-1 flex flex-col p-4 space-y-2 text-gray-700">
         {menu.map(({ name, icon: Icon, path }) => {
           const isActive = location.pathname === path;
           return (
@@ -76,15 +83,17 @@ export default function Sidebar({ role = "candidate" }) {
         })}
       </nav>
 
-     <div className="p-4 ">
-  <button
-      className="absolute bottom-4 left-4 flex items-center gap-3 px-3 py-2 text-red-600 rounded-lg hover:bg-red-50 transition"
-      onClick={handleLogout}
-    >
-      <LogOut className="w-5 h-5" />
-      Logout
-    </button>
-    </div>
+      {/* Logout Button Sticks to Bottom */}
+      <div className="p-4">
+        <button
+          className="flex items-center gap-3 px-3 py-2 text-red-600 rounded-lg 
+                 hover:bg-red-50 transition"
+          onClick={handleLogout}
+        >
+          <LogOut className="w-5 h-5" />
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }

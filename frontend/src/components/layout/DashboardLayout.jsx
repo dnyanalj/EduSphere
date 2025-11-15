@@ -2,8 +2,9 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-import ExamCard from "@/components/ExamCard";
-import TestCard from "@/components/TestCard";
+
+import CandidateCard from "@/components/CandidateCard";
+import ExaminerCard from "@/components/ExaminerCard";
 
 export default function DashboardLayout({
   role = "candidate",
@@ -29,9 +30,9 @@ export default function DashboardLayout({
             {tests.length > 0 ? (
               tests.map((test) =>
                 role === "candidate" ? (
-                  <ExamCard key={test.id} test={test} onStartExam={onStartExam} />
+                  <CandidateCard key={test.id} test={test} onStartExam={onStartExam} />
                 ) : (
-                  <TestCard key={test.id} test={test} />
+                  <ExaminerCard key={test.id} test={test} />
                 )
               )
             ) : (

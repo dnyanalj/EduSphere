@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 
-export default function ExamCard({ test, onStartExam }) {
+export default function CandidateCard({ test, onStartExam }) {
   const navigate = useNavigate();
   const isExpired = test.scheduledAt && new Date(test.scheduledAt) < new Date();
 
@@ -91,7 +91,7 @@ export default function ExamCard({ test, onStartExam }) {
         ) : (
           <Button
             onClick={() => onStartExam(test.id)}
-            className="w-full bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold shadow-md"
+            className="w-full from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold shadow-md"
           >
             Start Exam
           </Button>
