@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import { getTestResults } from "../api/examinerApi";
+
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+
 import {
   Table,
   TableHeader,
@@ -15,8 +19,10 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
 
 export default function ShowResultsExaminer() {
   const { testId } = useParams();
