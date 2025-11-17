@@ -6,7 +6,7 @@ import CandidateDashboard from "./pages/CandidateDashboard";
 import CreateTest from "./pages/CreateTest";
 import ExamPage from "./pages/ExamPage";
 import ShowResult from "./pages/ShowResult";
-import ShowResultsExaminer from "./pages/showResultsExaminer";
+import ShowResultsExaminer from "./pages/ShowResultsExaminer";
 import ProfilePage from "./pages/ProfilePage";
 import CandidateAnalytics from "./pages/CandidateAnalytics";
 //

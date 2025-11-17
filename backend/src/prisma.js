@@ -1,4 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
+// i want old syntax
+const { PrismaClient } = require('@prisma/client');
+
 const prisma = new PrismaClient();
 
-export default prisma;
+module.exports = prisma;
