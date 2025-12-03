@@ -9,7 +9,6 @@ const examinerRoutes = require('./routes/examinerRoutes');
 const candidateRoutes = require('./routes/candidateRoutes');
 
 const { authMiddleware } = require('./middlewares/authMiddleware');
-
 const app = express();
 app.use(cors({
     origin: 'http://localhost:5173', // your frontend origin
