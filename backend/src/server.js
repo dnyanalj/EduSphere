@@ -23,7 +23,7 @@ const allowedOrigins = [
 
 // 🚨 DISABLE ALL CORS RESTRICTIONS (ALLOW ALL)
 app.use(cors());
-app.options("*", cors());
+// app.options("*", cors());
 
 // 
 app.use(express.json());
