@@ -11,14 +11,19 @@ const candidateRoutes = require('./routes/candidateRoutes');
 const { authMiddleware } = require('./middlewares/authMiddleware');
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173",              
+    "https://shiken-x-git-main-dnyanals-projects.vercel.app/",  
+];
+
 app.use(cors({
-    origin: 'http://localhost:5173', // your frontend origin
+    origin:allowedOrigins, // your frontend origin
     credentials: true,              // allow cookies/credentials
 }));
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors());
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/examiner', authMiddleware, examinerRoutes); // further check role inside routes
