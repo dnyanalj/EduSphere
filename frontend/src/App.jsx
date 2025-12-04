@@ -16,7 +16,6 @@ function App() {
     <div>
       <Router>
         <Routes>
-
           <Route path="/" element={<Signup />} />
           <Route path="/login/" element={<Login />} />
           <Route path="/signup/" element={<Signup />} />
@@ -34,7 +33,6 @@ function App() {
           <Route path="candidate/profile" element={<ProfilePage />} />
           <Route path="candidate/analytics" element={<CandidateAnalytics />} />
         </Routes>
-
       </Router>
     </div>
   );
