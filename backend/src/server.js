@@ -16,11 +16,16 @@ const allowedOrigins = [
     "https://shiken-x.vercel.app/",  
 ];
 
-app.use(cors({
-    origin:allowedOrigins, // your frontend origin
-    credentials: true,              // allow cookies/credentials
-}));
+// app.use(cors({
+//     origin:allowedOrigins, // your frontend origin
+//     credentials: true,              // allow cookies/credentials
+// }));
 
+// 🚨 DISABLE ALL CORS RESTRICTIONS (ALLOW ALL)
+app.use(cors());
+app.options("*", cors());
+
+// 
 app.use(express.json());
 app.use(cookieParser());
 
