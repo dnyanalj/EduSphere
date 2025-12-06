@@ -9,8 +9,8 @@ import ShowResult from "./pages/ShowResult";
 import ShowResultsExaminer from "./pages/ShowResultsExaminer";
 import ProfilePage from "./pages/ProfilePage";
 import CandidateAnalytics from "./pages/CandidateAnalytics";
-//
 import { Button } from "@/components/ui/button";
+
 function App() {
   return (
     <div>
