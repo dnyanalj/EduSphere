@@ -13,7 +13,7 @@ const app = express();
 
 const allowedOrigins = [
     "http://localhost:5173",              
-    "https://shiken-x.vercel.app/",  
+    "https://shiken-x.vercel.app",  
 ];
 
 app.use(cors({
