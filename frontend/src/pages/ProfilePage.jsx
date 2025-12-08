@@ -6,16 +6,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LogOut, User, Mail, UserCog } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // ⚡ Replace with real API call
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const role = storedUser?.role || "Candidate";
+      const username = storedUser?.username || "demo_user";
+     
     const data = {
-      name: "Dnyanal",
-      email: "dnyanal@example.com",
-      role: "Candidate",
+      name: username,
+      email: username ,
+      role: role,
       testsTaken: 12,
       accuracy: "78%",
       joinedAt: "2024-09-12",
@@ -32,8 +37,15 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
+    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">          
       <div className="w-full max-w-3xl space-y-6">
+        {/* ✅ Fixed Top-Left Logo */}
+        <img
+          src="/ShikenXbgr.png"
+          alt="ShikenX Logo"
+          className="fixed top-6 left-6 h-10 w-auto drop-shadow-md bg-black/30 px-2 py-1 rounded-md z-50"
+          onClick={() => navigate(`/${user.role.toLowerCase()}/dashboard`)}
+        />
 
         {/* 🧑 Profile Info */}
         <Card className="border border-gray-200 shadow-md rounded-2xl bg-white/80 backdrop-blur-sm">

@@ -33,6 +33,13 @@ function ShowResult() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-50 py-12 px-6 flex flex-col items-center">
+      <img
+          src="/ShikenXbgr.png"
+          alt="ShikenX Logo"
+          className="fixed top-6 left-6 h-10 w-auto drop-shadow-md bg-black/30 px-2 py-1 rounded-md z-50"
+          onClick={() => navigate('/candidate/dashboard')}
+        />
+
       {/* RESULT SUMMARY CARD */}
       <Card className="w-full max-w-2xl shadow-xl border border-gray-200 rounded-2xl bg-white">
         <CardHeader className="border-b border-gray-100">

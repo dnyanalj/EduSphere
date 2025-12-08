@@ -8,6 +8,7 @@ import {
   LogOut,
   LayoutDashboard,
 } from "lucide-react";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "@/api/authApi";
 
@@ -17,9 +18,9 @@ export default function Sidebar({ role = "candidate" }) {
 
   // Define menu items based on role
   const baseMenu = [
-    { name: "Dashboard", icon: LayoutDashboard, path: `/${role}/dashboard` },
+    { name: "My Tests", icon: LayoutDashboard, path: `/${role}/dashboard` },
     { name: "Analytics", icon: BarChart2, path: `/${role}/analytics` },
-    { name: "Profile", icon: User, path: `/${role}/profile` },
+    { name: "Profile", icon: User, path: `/profile` },
   ];
 
   const candidateMenu = [
@@ -27,7 +28,7 @@ export default function Sidebar({ role = "candidate" }) {
   ];
 
   const examinerMenu = [
-    { name: "Create Test", icon: PlusCircle, path: "/create-test" },
+    { name: "Create Test", icon: PlusCircle, path: "/examiner/create-test" },
   ];
 
   // Merge menus dynamically
@@ -55,10 +56,11 @@ export default function Sidebar({ role = "candidate" }) {
       {/* Header */}
       <div className="p-4  flex items-center justify-between ">
          <img
-          src="/ShikenX.png"
+          src="/ShikenXbgr.png"
           alt="ShikenX Logo"
-          className="h-10 w-auto"
+          className="h-10 w-auto drop-shadow-md bg-black/30 px-2 py-1 rounded-md"
         />
+
 
       </div>
 

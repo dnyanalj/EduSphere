@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { createTest } from "../api/examinerApi";
 import QuestionModal from "./QuestionModal.jsx";
 import { useNavigate } from "react-router-dom";
+import SideBar from "@/components/layout/SideBar.jsx";
+import Navbar from "@/components/layout/NavBar.jsx";
 
 function CreateTest() {
   const [title, setTitle] = useState("");
@@ -47,79 +49,94 @@ function CreateTest() {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto border rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-4">Create New Test</h2>
+    <div className="flex min-h-screen">
+      {/* Sidebar on the left */}
+      <SideBar role="examiner"/>
 
-      {/* take title as ip */}
-      <input
-        type="text"
-        placeholder="Enter test title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="block w-full mb-3 p-2 border rounded"
-      />
+      {/* Right side: navbar at top, content below */}
+      <div className="flex-1 flex flex-col">
+        <Navbar />
 
-      {/* take scheduled at time */}
-      <input
-        type="datetime-local"
-        value={scheduledAt}
-        onChange={(e) => setScheduledAt(e.target.value)}
-        className="block w-full mb-3 p-2 border rounded"
-      />
+        <main className="p-6">
+          <div className="max-w-xl mx-auto border rounded-lg shadow p-6">
+            <h2 className="text-xl font-bold mb-4">Create New Test</h2>
 
-      {/* show questions  */}
-      <div className="mb-3">
-        <h3 className="font-semibold mb-2">Questions ({questions.length})</h3>
-        {questions.map((q, i) => (
-          <div key={i} className="mb-3 p-3 border rounded bg-gray-50">
-            <p className="font-medium mb-2">
-              <strong>Q{i + 1}:</strong> {q.text}
-            </p>
+            <input
+              type="text"
+              placeholder="Enter test title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="block w-full mb-3 p-2 border rounded"
+            />
 
-            <ul className="ml-4 space-y-1">
-              {q.options.map((opt, idx) => {
-                const isAnswer = q.answerIndex === idx;
-                return (
-                  <li
-                    key={idx}
-                    className={`p-2 rounded border ${
-                      isAnswer
-                        ? "bg-green-100 border-green-400 text-green-700 font-semibold flex items-center gap-1"
-                        : "border-transparent"
-                    }`}
-                  >
-                    {isAnswer && <span>✅</span>}
-                    {opt}
-                  </li>
-                );
-              })}
-            </ul>
+            <input
+              type="datetime-local"
+              value={scheduledAt}
+              onChange={(e) => setScheduledAt(e.target.value)}
+              className="block w-full mb-3 p-2 border rounded"
+            />
+
+            <div className="mb-3">
+              <h3 className="font-semibold mb-2">
+                Questions ({questions.length})
+              </h3>
+
+              {questions.map((q, i) => (
+                <div
+                  key={i}
+                  className="mb-3 p-3 border rounded bg-gray-50"
+                >
+                  <p className="font-medium mb-2">
+                    <strong>Q{i + 1}:</strong> {q.text}
+                  </p>
+
+                  <ul className="ml-4 space-y-1">
+                    {q.options.map((opt, idx) => {
+                      const isAnswer = q.answerIndex === idx;
+                      return (
+                        <li
+                          key={idx}
+                          className={`p-2 rounded border ${
+                            isAnswer
+                              ? "bg-green-100 border-green-400 text-green-700 font-semibold flex items-center gap-1"
+                              : "border-transparent"
+                          }`}
+                        >
+                          {isAnswer && <span>✅</span>}
+                          {opt}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowModal(true)}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                ➕ Add Question
+              </button>
+
+              <button
+                onClick={handleCreateTest}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                🚀 Create Test
+              </button>
+            </div>
           </div>
-        ))}
+        </main>
+
+        {showModal && (
+          <QuestionModal
+            onSave={handleAddQuestion}
+            onCancel={() => setShowModal(false)}
+          />
+        )}
       </div>
-
-      <div className="flex gap-2">
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          ➕ Add Question
-        </button>
-
-        <button
-          onClick={handleCreateTest}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          🚀 Create Test
-        </button>
-      </div>
-
-      {showModal && (
-        <QuestionModal
-          onSave={handleAddQuestion}
-          onCancel={() => setShowModal(false)}
-        />
-      )}
     </div>
   );
 }

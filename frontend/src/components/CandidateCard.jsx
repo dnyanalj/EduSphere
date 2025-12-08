@@ -69,7 +69,7 @@ export default function CandidateCard({ test, onStartExam }) {
           test.attempt.status === "FINISHED" ? (
             <Button
               onClick={() => navigate(`/result/${test.attempt.id}`)}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium shadow-sm transition"
+              className="w-full  bg-green-600  hover:bg-green-700 text-white font-medium shadow-sm transition"
             >
               View Result
             </Button>
@@ -84,14 +84,14 @@ export default function CandidateCard({ test, onStartExam }) {
         ) : isExpired ? (
           <Button
             disabled
-            className="w-full bg-gray-300 text-gray-700 font-medium cursor-not-allowed"
+            className="w-full bg-red-500 text-white font-medium cursor-not-allowed"
           >
             Expired
           </Button>
         ) : (
           <Button
             onClick={() => onStartExam(test.id)}
-            className="w-full from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold shadow-md"
+            className="w-full bg-blue-500  hover:bg-blue-700 text-white font-semibold shadow-md"
           >
             Start Exam
           </Button>

@@ -1,13 +1,14 @@
 // src/components/layout/Navbar.jsx
 import React from "react";
 import { Bell, Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ username = "Candidate" }) {
+export default function Navbar({ role = "Candidate" }) {
+  const navigate = useNavigate();
   return (
     <nav className="h-16 bg-white shadow-md  border-gray-500 flex items-center justify-between px-6">
-      {/* LEFT SIDE: Logo + Search */}
+
       <div className="flex items-center gap-6">
-      
         {/* Search bar */}
         <input
           type="text"
@@ -26,7 +27,6 @@ export default function Navbar({ username = "Candidate" }) {
           </span>
         </div>
 
-        {/* Email */}
         <div className="relative cursor-pointer">
           <Mail className="w-5 h-5 text-gray-600" />
           <span className="absolute -top-1 -right-2 text-xs bg-red-500 text-white px-1 rounded-full">
@@ -34,12 +34,12 @@ export default function Navbar({ username = "Candidate" }) {
           </span>
         </div>
 
-        {/* Username + Profile */}
         <div className="flex items-center gap-2 cursor-pointer">
-          <span className="font-medium text-gray-700">{username}</span>
+          <span className="font-medium text-gray-700"></span>
           <img
-            src="/avatar.png"   // <-- replace with real user profile
+            src="/userPhoto.jpg"
             className="w-10 h-10 rounded-full object-cover"
+            onClick={() => navigate(`/profile`)}
           />
         </div>
       </div>

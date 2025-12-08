@@ -22,12 +22,12 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { useNavigate } from "react-router-dom";
 
 export default function ShowResultsExaminer() {
   const { testId } = useParams();
-
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchResults() {
@@ -45,6 +45,12 @@ export default function ShowResultsExaminer() {
 
   return (
     <div className="p-6 md:p-10 from-gray-50 to-white min-h-screen">
+      <img
+          src="/ShikenXbgr.png"
+          alt="ShikenX Logo"
+          className="fixed top-6 left-6 h-10 w-auto drop-shadow-md bg-black/30 px-2 py-1 rounded-md z-50"
+          onClick={() => navigate(`/examiner/dashboard`)}
+        />
       <Card className="max-w-5xl mx-auto shadow-lg border border-gray-200 rounded-2xl bg-white">
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center justify-between">
