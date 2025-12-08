@@ -9,8 +9,6 @@ async function signup(req, res) {
       return res.status(400).json({ error: 'Missing fields' });
 
     const hashed = await bcrypt.hash(password, 10);
-    console.log(10);
-
     const user = await prisma.user.create({
       data: { name, username, password: hashed, role: role || 'CANDIDATE' },
     });
@@ -21,15 +19,16 @@ async function signup(req, res) {
     );
 
     // Send token as cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // true in prod
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    // res.cookie('token', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production', // true in prod
+    //   sameSite: 'lax',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // });
 
-    res.json({
+    res.status(201).json({
       message: 'Signup successful',
+      token,
       user: { id: user.id, username: user.username, role: user.role },
     });
 
@@ -51,20 +50,21 @@ async function login(req, res) {
 
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      process.env.JWT_SECRET,
+        process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
     // Set cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    // res.cookie('token', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'lax',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
 
     res.json({
       message: 'Login successful',
+      token,
       user: { id: user.id, username: user.username, role: user.role },
     });
 
@@ -73,9 +73,10 @@ async function login(req, res) {
   }
 }
 
-// Logout endpoint (to clear cookie)
+// Logout is now a frontend action only okay so this is of no use we will use  
+// it when we will implement cookies. 
 async function logout(req, res) {
-  res.clearCookie('token');
+  // res.clearCookie('token');
   res.json({ message: 'Logged out successfully' });
 }
 

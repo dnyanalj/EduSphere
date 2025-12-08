@@ -84,11 +84,11 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await signup(form);
+      const user = await signup(form);
       // alert("Signup successful!");
-      console.log("Signup response:", res);
+      console.log("Signup response:", user);
 
-      navigate(`/${form.role.toLowerCase()}/dashboard`);
+      navigate(`/${user.role.toLowerCase()}/dashboard`);
 
     } catch (err) {
       alert(err.response?.data?.error || "Signup failed");

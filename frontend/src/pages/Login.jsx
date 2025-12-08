@@ -71,13 +71,13 @@ import { login } from "../api/authApi";
 import { useNavigate, Link } from "react-router-dom"; // Import Link for navigation
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardAction,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card"
 
 import { Input } from "@/components/ui/input"
@@ -94,8 +94,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(form);
-      navigate(`/${res.data.user.role.toLowerCase()}/dashboard`); 
+      const user = await login(form);
+      navigate(`/${user.role.toLowerCase()}/dashboard`); 
     } catch (err) {
       alert(err.response?.data?.error || "Login failed");
     }

@@ -18,7 +18,7 @@ const allowedOrigins = [
 
 app.use(cors({
     origin:allowedOrigins, // your frontend origin
-    credentials: true,              // allow cookies/credentials
+    credentials: true,                   // allow cookies/credentials
 }));
     
 app.use(express.json());
