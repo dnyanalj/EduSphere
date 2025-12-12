@@ -12,12 +12,40 @@ import { Badge } from "@/components/ui/badge";
 
 export default function CandidateCard({ test, onStartExam }) {
   const navigate = useNavigate();
-  const isExpired = test.scheduledAt && new Date(test.scheduledAt) < new Date();
+  
+  // Calculate start window status (treat stored datetime as local for display and comparison)
+  const now = new Date();
+  let windowStatus = null; // 'too-early' | 'in-window' | 'window-closed'
+  let windowEndTime = null;
+  let startDisplay = null;
+  
+  if (test.scheduledAt) {
+    const startTime = new Date(test.scheduledAt);
+    const isToday =
+      startTime.getFullYear() === now.getFullYear() &&
+      startTime.getMonth() === now.getMonth() &&
+      startTime.getDate() === now.getDate();
+    
+    startDisplay = isToday
+      ? startTime.toLocaleTimeString()
+      : startTime.toLocaleString();
+
+    windowEndTime = new Date(startTime.getTime() + 10 * 60 * 1000); // +10 minutes
+    
+    if (now < startTime) {
+      windowStatus = 'too-early';
+    } else if (now >= startTime && now <= windowEndTime) {
+      windowStatus = 'in-window';
+    } else {
+      windowStatus = 'window-closed';
+    }
+  }
 
   return (
     <Card className="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-in-out">
       <CardHeader className="space-y-1 pb-2">
         <div className="flex justify-between items-center">
+          
           <CardTitle className="text-lg font-semibold text-gray-800 truncate">
             {test.title}
           </CardTitle>
@@ -25,32 +53,36 @@ export default function CandidateCard({ test, onStartExam }) {
           <Badge
             className={`${
               test.attempt
-                ? test.attempt.status === "FINISHED"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-yellow-100 text-yellow-800"
-                : isExpired
+                ? "bg-green-100 text-green-800"
+                : windowStatus === 'window-closed'
                 ? "bg-gray-100 text-gray-700"
+                : windowStatus === 'too-early'
+                ? "bg-purple-100 text-purple-800"
                 : "bg-blue-100 text-blue-800"
             } text-xs px-3 py-0.5 rounded-full`}
           >
             {test.attempt
-              ? test.attempt.status === "FINISHED"
-                ? "Completed"
-                : "In Progress"
-              : isExpired
-              ? "Expired"
-              : "Upcoming"}
+              ? "Completed"
+              : windowStatus === 'window-closed'
+              ? "Window Closed"
+              : windowStatus === 'too-early'
+              ? "Upcoming"
+              : "Available"}
           </Badge>
         </div>
 
         <p className="text-sm text-gray-500 mt-1">
-          Scheduled At:{" "}
+          Start Time:{" "}
           <span className="font-medium text-gray-700">
-            {test.scheduledAt
-              ? new Date(test.scheduledAt).toLocaleString()
-              : "—"}
+            {startDisplay || "—"}
           </span>
+          <span className="ml-1 text-xs text-gray-400">(local time)</span>
         </p>
+        {test.scheduledAt && windowStatus === 'in-window' && (
+          <p className="text-xs text-orange-600 mt-1">
+            ⏰ Window closes at {windowEndTime.toLocaleTimeString()}
+          </p>
+        )}
       </CardHeader>
 
       <CardContent className="text-sm text-gray-600 space-y-1">
@@ -58,42 +90,47 @@ export default function CandidateCard({ test, onStartExam }) {
           <span className="font-medium text-gray-700">Duration:</span>{" "}
           {test.duration ? `${test.duration} mins` : "N/A"}
         </p>
-        <p>
+        {/* <p>
           <span className="font-medium text-gray-700">Questions:</span>{" "}
           {test.totalQuestions || "--"}
-        </p>
+        </p> */}
       </CardContent>
 
       <CardFooter className="pt-3">
         {test.attempt ? (
-          test.attempt.status === "FINISHED" ? (
-            <Button
-              onClick={() => navigate(`/result/${test.attempt.id}`)}
-              className="w-full  bg-green-600  hover:bg-green-700 text-white font-medium shadow-sm transition"
-            >
-              View Result
-            </Button>
-          ) : (
-            <Button
-              disabled
-              className="w-full bg-yellow-400/70 text-gray-800 font-medium cursor-not-allowed"
-            >
-              In Progress
-            </Button>
-          )
-        ) : isExpired ? (
+          <Button
+            onClick={() => navigate(`/result/${test.attempt.id}`)}
+            className="w-full  bg-green-600  hover:bg-green-700 text-white font-medium shadow-sm transition"
+          >
+            View Result
+          </Button>
+        ) : windowStatus === 'window-closed' ? (
           <Button
             disabled
             className="w-full bg-red-500 text-white font-medium cursor-not-allowed"
           >
-            Expired
+            Window Closed
           </Button>
-        ) : (
+        ) : windowStatus === 'too-early' ? (
+          <Button
+            disabled
+            className="w-full bg-gray-400 text-white font-medium cursor-not-allowed"
+          >
+            {startDisplay ? `Starts at ${startDisplay}` : "Start time not set"}
+          </Button>
+        ) : windowStatus === 'in-window' ? (
           <Button
             onClick={() => onStartExam(test.id)}
             className="w-full bg-blue-500  hover:bg-blue-700 text-white font-semibold shadow-md"
           >
             Start Exam
+          </Button>
+        ) : (
+          <Button
+            disabled
+            className="w-full bg-gray-400 text-white font-medium cursor-not-allowed"
+          >
+            Start time not set
           </Button>
         )}
       </CardFooter>

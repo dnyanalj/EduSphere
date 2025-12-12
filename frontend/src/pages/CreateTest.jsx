@@ -10,13 +10,29 @@ function CreateTest() {
   const [scheduledAt, setScheduledAt] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
   const navigate = useNavigate();
-  // Add new question from modal
-  const handleAddQuestion = (questionData) => {
-    setQuestions((prev) => [...prev, questionData]);
+  // Save new or edited question
+  const handleSaveQuestion = (questionData) => {
+    if (editingIndex !== null) {
+      setQuestions((prev) =>
+        prev.map((q, idx) => (idx === editingIndex ? questionData : q))
+      );
+      setEditingIndex(null);
+    } else {
+      setQuestions((prev) => [...prev, questionData]);
+    }
     setShowModal(false);
   };
 
+  const handleDeleteQuestion = (idx) => {
+    setQuestions((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const handleEditQuestion = (idx) => {
+    setEditingIndex(idx);
+    setShowModal(true);
+  };
   // Handle create test API call
   const handleCreateTest = async () => {
     if (!title.trim() && questions.length === 0) {
@@ -32,8 +48,9 @@ function CreateTest() {
       return;
     }
     try {
+      const payload = { title,  scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : null, questions };
       // call to the backend
-      const res = await createTest({ title, scheduledAt, questions });
+      const res = await createTest(payload);
 
       alert("✅ Test created successfully!");
       console.log("Created Test:", res.data);
@@ -51,7 +68,7 @@ function CreateTest() {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar on the left */}
-      <SideBar role="examiner"/>
+      <SideBar role="examiner" />
 
       {/* Right side: navbar at top, content below */}
       <div className="flex-1 flex flex-col">
@@ -60,7 +77,7 @@ function CreateTest() {
         <main className="p-6">
           <div className="max-w-xl mx-auto border rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Create New Test</h2>
-
+            <label className="block mb-1 font-medium">Test Title</label>
             <input
               type="text"
               placeholder="Enter test title"
@@ -68,24 +85,26 @@ function CreateTest() {
               onChange={(e) => setTitle(e.target.value)}
               className="block w-full mb-3 p-2 border rounded"
             />
-
+            <label className="block mb-1 font-medium">Test Date & Time</label>
+            // React: keep your input as-is
             <input
               type="datetime-local"
+              placeholder="Enter test date and time"
               value={scheduledAt}
               onChange={(e) => setScheduledAt(e.target.value)}
               className="block w-full mb-3 p-2 border rounded"
             />
-
-            <div className="mb-3">
+            <p className="text-sm text-gray-600">
+              The test can be started only within 10 minutes from the scheduled
+              time.
+            </p>
+            <div className="mb-3 pt-3">
               <h3 className="font-semibold mb-2">
                 Questions ({questions.length})
               </h3>
 
               {questions.map((q, i) => (
-                <div
-                  key={i}
-                  className="mb-3 p-3 border rounded bg-gray-50"
-                >
+                <div key={i} className="mb-3 p-3 border rounded bg-gray-50">
                   <p className="font-medium mb-2">
                     <strong>Q{i + 1}:</strong> {q.text}
                   </p>
@@ -108,10 +127,23 @@ function CreateTest() {
                       );
                     })}
                   </ul>
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      onClick={() => handleEditQuestion(i)}
+                      className="px-3 py-1 rounded border border-blue-500 text-blue-600 hover:bg-blue-50"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteQuestion(i)}
+                      className="px-3 py-1 rounded border border-red-500 text-red-600 hover:bg-red-50"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
-
             <div className="flex gap-2">
               <button
                 onClick={() => setShowModal(true)}
@@ -132,8 +164,12 @@ function CreateTest() {
 
         {showModal && (
           <QuestionModal
-            onSave={handleAddQuestion}
-            onCancel={() => setShowModal(false)}
+            onSave={handleSaveQuestion}
+            onCancel={() => {
+              setShowModal(false);
+              setEditingIndex(null);
+            }}
+            initialData={editingIndex !== null ? questions[editingIndex] : null}
           />
         )}
       </div>

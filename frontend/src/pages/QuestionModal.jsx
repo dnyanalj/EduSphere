@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 
-function QuestionModal({ onSave, onCancel }) {
-  const [text, setText] = useState("");
-  const [options, setOptions] = useState(["", "", "", ""]);
-  const [answerIndex, setAnswerIndex] = useState(0);
-
+function QuestionModal({ onSave, onCancel, initialData }) {
+  const [text, setText] = useState(initialData?.text || "");
+  const [options, setOptions] = useState(
+    initialData?.options || ["", "", "", ""]
+  );
+  const [answerIndex, setAnswerIndex] = useState(
+    typeof initialData?.answerIndex === "number" ? initialData.answerIndex : 0
+  );
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
     newOptions[index] = value;
@@ -24,8 +27,9 @@ function QuestionModal({ onSave, onCancel }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
       <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md">
-
-        <h2 className="text-lg font-bold mb-3">Add New Question</h2>
+        <h2 className="text-lg font-bold mb-3">
+          {initialData ? "Edit Question" : "Add New Question"}
+        </h2>
 
         <input
           type="text"
@@ -58,19 +62,20 @@ function QuestionModal({ onSave, onCancel }) {
           <button
             onClick={onCancel}
             className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-          >Cancel
+          >
+            Cancel
           </button>
 
           <button
             onClick={handleSubmit}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >Save Question
+          >
+            Save Question
           </button>
-
         </div>
       </div>
     </div>
   );
-} 
+}
 
 export default QuestionModal;
