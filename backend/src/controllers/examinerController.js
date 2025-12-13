@@ -4,15 +4,12 @@ async function createTest(req, res) {
   try {
     if (req.user.role !== 'EXAMINER') return res.status(403).json({ error: 'Forbidden' });
     const { title, scheduledAt, questions } = req.body;
-    
-    // Store exactly what user entered from datetime-local (interpreted as local time)
-    const scheduledAtDate = scheduledAt ? new Date(scheduledAt) : null;
-    
+      
     // create test
     const test = await prisma.test.create({
       data: {
         title,
-         scheduledAt: scheduledAtDate,
+        scheduledAt,
         examiner: { connect: { id: req.user.userId } },
         questions: {
           create: questions.map(q => ({

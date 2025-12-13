@@ -11,6 +11,7 @@ function CreateTest() {
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
+
   const navigate = useNavigate();
   // Save new or edited question
   const handleSaveQuestion = (questionData) => {
@@ -48,7 +49,10 @@ function CreateTest() {
       return;
     }
     try {
-      const payload = { title,  scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : null, questions };
+      const utcIso = new Date(scheduledAt).toISOString();
+
+      const payload = { title, scheduledAt:utcIso, questions};
+
       // call to the backend
       const res = await createTest(payload);
 
@@ -86,7 +90,7 @@ function CreateTest() {
               className="block w-full mb-3 p-2 border rounded"
             />
             <label className="block mb-1 font-medium">Test Date & Time</label>
-            // React: keep your input as-is
+            
             <input
               type="datetime-local"
               placeholder="Enter test date and time"

@@ -1,7 +1,7 @@
 Basic version:
 
 ⚫Edit, delete questions while creating test.✅
-⚫Edit the "scheduled at" functionality convert from deadline to start time.
+⚫Edit the "scheduled at" functionality convert from deadline to start time.✅
 
 ⚫Delete the whole test from the side of examiner.
 ⚫working search bar based on the name of the test.
